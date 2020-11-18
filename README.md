@@ -22,6 +22,45 @@ Les requêtes créées sont :
     Consulter les transactions dans l'ordre chronologique pour une personne --> GET /records/<personne> ------------------------------> SELECT * FROM records WHERE personne1=1 (order by temps ASC)
     Afficher le solde d'une personne -----------------------------------------> GET /solde/<personne> --------------------------------> SELECT SUM(somme) AS solde FROM records WHERE personne1=1
 
+## Database
+
+La base de données est actuellement composée de 2 tables : ```personne``` et ```record```
+
+### Table personne :
+
+```sql
+CREATE TABLE "personne" (
+	"id"	INTEGER NOT NULL UNIQUE,
+	"nom"	TEXT NOT NULL,
+	"prenom"	TEXT NOT NULL,
+	PRIMARY KEY("id" AUTOINCREMENT)
+)
+```
+- Par la suite, nous pouvons, si nous le souhaitons, ajouter des données supplémentaires à la table personne.
+
+### Table records :
+
+```sql
+CREATE TABLE "records" (
+	"id"	INTEGER NOT NULL UNIQUE,
+	"personne1"	INTEGER NOT NULL,
+	"personne2"	INTEGER NOT NULL,
+	"temps"	INTEGER NOT NULL,
+	"somme"	NUMERIC NOT NULL,
+	"hash"	TEXT NOT NULL,
+	PRIMARY KEY("id" AUTOINCREMENT),
+	FOREIGN KEY("personne1") REFERENCES "personne"("id"),
+	FOREIGN KEY("personne2") REFERENCES "personne"("id")
+)
+```
+
+Le temps est pour l'instant stocké comme étant le nombre de secondes écoulées depuis le 1er janvier 1970. Ce formalisme a plusieurs avantages :
+- Il facilite la comparaison de date, puisque ca reviens a faire une differente entre 2 nombres
+- Il est géré par la plupars des langage et SGBD
+- Il est universel, la notion de fuseaux horaires disparait.
+
+Cependant il est peu compréhensible par l'homme. C'est pourquoi il sera reconverti en date classique lors de l'affichage.
+
 ## Hash
 
 SHA-256 sera utilisé pour le hashage des enregistrements.

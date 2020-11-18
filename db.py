@@ -4,7 +4,7 @@ Created on Wed Nov 18 14:07:21 2020
 
 @author: Alexandre
 
-hash_sha256("id1|id2|15684165163|154.28")
+hash_sha256("1|2|1605721721|144")
 
 """
 
@@ -134,6 +134,58 @@ def add_record(db_path, record):
         cur.execute(query)
         cur.commit()
 
+    except Error as e:
+        print(e)
+    finally:
+        if conn:
+            conn.close()
+
+def delete_record(db_path, id):
+
+    conn = None
+
+    try:
+        conn = sqlite3.connect(db_path)
+        cur = conn.cursor()
+        query = 'DELETE FROM records WHERE id=' + str(id)
+        cur.execute(query)
+        cur.commit()
+
+    except Error as e:
+        print(e)
+    finally:
+        if conn:
+            conn.close()
+
+def get_record_by_personne1(db_path,id):
+    rows = []
+    conn = None
+
+    try:
+        conn = sqlite3.connect(db_path)
+        cur = conn.cursor()
+        rows = []
+        query = "SELECT * FROM records WHERE personne1=" + str(id)
+        cur.execute(query)
+        rows = cur.fetchall()
+    except Error as e:
+        print(e)
+    finally:
+        if conn:
+            conn.close()
+    return rows
+
+def get_solde(db_path,id):
+    rows = []
+    conn = None
+
+    try:
+        conn = sqlite3.connect(db_path)
+        cur = conn.cursor()
+        rows = []
+        query = "SELECT SUM(SOMME) FROM records WHERE personne1=" + str(id)
+        cur.execute(query)
+        rows = cur.fetchall()
     except Error as e:
         print(e)
     finally:
