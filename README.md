@@ -10,6 +10,7 @@
 
 Les requêtes créées sont :
 
+    Description                                                                 Requête API                                             Requête SQL
     Ajouter une personne -----------------------------------------------------> POST /personne/<nom>/<prenom> ------------------------> INSERT INTO personne (nom,prenom) VALUES ("BILLON", "Alexandre")
     Supprimer une personne ---------------------------------------------------> DELETE /personne/<id> --------------------------------> DELETE FROM personne WHERE id=1
     Consulter la liste des personnes -----------------------------------------> GET /personnes ---------------------------------------> SELECT * FROM personne (ORDER BY nom,prenom)
