@@ -1,5 +1,11 @@
 # Tchaï Project
 
+## Usage
+
+- Run ```python Flask.py``` in a shell
+- Then you can access to ```http://127.0.0.1:5000/``` in your favourite browser
+- You can use this address to send your API requests
+
 ## Requêtes API :
 
 Les requêtes créées sont :
