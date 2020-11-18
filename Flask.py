@@ -36,7 +36,11 @@ print(records)
 personne = select_personnes(db_path)
 print(personne)
 
-names = [e[1] for e in personne]
+names = [e[1] + " " + e[2] for e in personne]
+
+@app.route('/')
+def hello():
+    return 'Hello <ul>'+''.join(['<li>'+ n for n in names]) +'</ul>\n', 200
 
 @app.route('/personnes', methods=['GET'])
 def liste_personne():
@@ -54,27 +58,8 @@ def new_personne(nom, prenom):
     }
     add_personne(db_path, p)
 
-#@app.route('/personnes/<id>', methods=['DELETE'])
-#delete_personne(db_path, int(id))
-
-
-@app.route('/')
-def hello():
-    return 'Hello <ul>'+''.join(['<li>'+ n for n in names]) +'</ul>\n', 200
-    
-@app.route('/user/<uname>', methods=['PUT'])
-def add (uname):
-    names.append(uname)
-    return 'User '+ uname +' added.\n', 201
-    
-@app.route('/user/<uname>', methods=['DELETE'])
-def rem (uname):
-    if uname not in names:
-        return 'User '+ uname +' does not exists.\n', 404
-    
-    names.remove(uname)
-    return 'User '+ uname +' removed.\n', 200
+@app.route('/personnes/<id>', methods=['DELETE'])
+def rm_per(id):
+    delete_personne(db_path, int(id))
     
 app.run(host='127.0.0.1', debug=True)
-
-
