@@ -45,6 +45,24 @@ def select_personnes(db_path):
             conn.close()
     return rows
 
+def get_personne(db_path,id):
+    rows = []
+    conn = None
+
+    try:
+        conn = sqlite3.connect(db_path)
+        cur = conn.cursor()
+        rows = []
+        query = "SELECT * FROM personne WHERE id=" + str(id)
+        cur.execute(query)
+        rows = cur.fetchall()
+    except Error as e:
+        print(e)
+    finally:
+        if conn:
+            conn.close()
+    return rows
+
 def add_personne(db_path, personne):
     """
     personne = {
@@ -60,6 +78,22 @@ def add_personne(db_path, personne):
         
         today = time.time()
         query = 'INSERT INTO personne (nom, prenom) VALUES ("' + personne["nom"] + '", "' + personne["prenom"] + '")'
+        cur.execute(query)
+        conn.commit()
+
+    except Error as e:
+        print(e)
+    finally:
+        if conn:
+            conn.close()
+
+def delete_personne(db_path, id):
+    conn = None
+
+    try:
+        conn = sqlite3.connect(db_path)
+        cur = conn.cursor()
+        query = 'DELETE FROM personne WHERE id=' + id + ')'
         cur.execute(query)
         conn.commit()
 
