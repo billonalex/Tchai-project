@@ -3,9 +3,7 @@
 Created on Wed Oct 21 10:40:42 2020
 
 @author: Alexandre
-"""
 
-"""
 Requêtes API :
     - Ajouter une personne                                                      : POST /personne/<nom>/<prenom>                         : INSERT INTO personne (nom,prenom) VALUES ("BILLON", "Alexandre")
     - Supprimer une personne                                                    : DELETE /personne/<id>                                 : DELETE FROM personne WHERE id=1
@@ -17,7 +15,6 @@ Requêtes API :
     - Consulter les transactions dans l'ordre chronologique                     : GET /records                                          : SELECT * FROM records (order by temps ASC)
     - Consulter les transactions dans l'ordre chronologique pour une personne   : GET /records/<personne>                               : SELECT * FROM records WHERE personne1=1 (order by temps ASC)
     - Afficher le solde d'une personne                                          : GET /solde/<personne>                                 : SELECT SUM(somme) AS solde FROM records WHERE personne1=1
-
 """
 
 import sqlite3
@@ -31,18 +28,13 @@ conn = None
 
 app = Flask(__name__)
 
-records = select_records(db_path)
-print(records)
-personne = select_personnes(db_path)
-print(personne)
-
-names = [e[1] + " " + e[2] for e in personne]
+names = [e[1] + " " + e[2] for e in select_personnes(db_path)]
 
 @app.route('/')
 def hello():
     return 'Hello <ul>'+''.join(['<li>'+ n for n in names]) +'</ul>\n', 200
 
-@app.route('/personnes', methods=['GET'])
+@app.route('/personnes/', methods=['GET'])
 def liste_personne():
     return str(select_personnes(db_path))
 

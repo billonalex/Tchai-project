@@ -3,11 +3,20 @@
 Created on Wed Nov 18 14:07:21 2020
 
 @author: Alexandre
+
+hash_sha256("id1|id2|15684165163|154.28")
+
 """
 
 import sqlite3
 from sqlite3 import Error
 import time
+import hashlib
+
+def hash_sha256(text):
+    h = hashlib.sha256()
+    h.update(text.encode('ascii'))
+    return h.hexdigest()
 
 def select_records(db_path):
     rows = []
@@ -17,7 +26,7 @@ def select_records(db_path):
         conn = sqlite3.connect(db_path)
         cur = conn.cursor()
         rows = []
-        query = "SELECT * FROM records"
+        query = "SELECT * FROM records ORDER BY temps ASC"
         cur.execute(query)
         rows = cur.fetchall()
     except Error as e:
@@ -119,7 +128,9 @@ def add_record(db_path, record):
         cur = conn.cursor()
         
         today = time.time()
-        query = 'INSERT INTO records (personne1, personne2, temps, somme) VALUES (' + str(record["personne1"]) + ',' + str(record["personne2"]) + ',' + str(int(today)) + ',' + str(record["somme"]) + ')'
+        pre_hash = str(record["personne1"]) + "|" + str(record["personne2"]) + "|" + str(int(today)) + "|" + str(record["somme"])
+        hash = hash_sha256(pre_hash)
+        query = 'INSERT INTO records (personne1, personne2, temps, somme, hash) VALUES (' + str(record["personne1"]) + ',' + str(record["personne2"]) + ',' + str(int(today)) + ',' + str(record["somme"]) + ',"' + hash + '")'
         cur.execute(query)
         cur.commit()
 
