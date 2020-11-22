@@ -219,12 +219,18 @@ def add_record_v3(db_path, record):
         query_hash = "SELECT hash from records WHERE temps = (SELECT MAX(temps) FROM records)"
         cur.execute(query_hash)
         rows = cur.fetchall()
-        for row in rows:
-            previous_hash = row[0]
 
-        today = time.time()
-        pre_hash = str(record["personne1"]) + "|" + str(record["personne2"]) + "|" + str(int(today)) + "|" + str(record["somme"])
-        hash = hash_sha256_v3(pre_hash, previous_hash) #On crée notre hash en tenant compte du hash précédent
+        if(len(rows) == 0): #On est sur la première transaction
+            today = time.time()
+            pre_hash = str(record["personne1"]) + "|" + str(record["personne2"]) + "|" + str(int(today)) + "|" + str(record["somme"])
+            hash = hash_sha256(pre_hash)
+
+        else: #Il y a déjà une transaction dans la base, on peut utiliser le hash précédent !
+            for row in rows:
+                previous_hash = row[0]
+            today = time.time()
+            pre_hash = str(record["personne1"]) + "|" + str(record["personne2"]) + "|" + str(int(today)) + "|" + str(record["somme"])
+            hash = hash_sha256_v3(pre_hash, previous_hash) #On crée notre hash en tenant compte du hash précédent
 
         #On insère l'enregistrement
         query = 'INSERT INTO records (personne1, personne2, temps, somme, hash) VALUES (' + str(record["personne1"]) + ',' + str(record["personne2"]) + ',' + str(int(today)) + ',' + str(record["somme"]) + ',"' + hash + '")'
