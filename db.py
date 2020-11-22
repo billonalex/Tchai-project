@@ -5,6 +5,7 @@ Created on Wed Nov 18 14:07:21 2020
 @author: Alexandre
 
 hash_sha256("1|2|1605721721|144")
+hash_sha256("1|2|1605721721|144", "25ae70e8e67e3f1f48227e70f603623cc72b26bda446ace306f61dad0101fc3d")
 
 """
 
@@ -188,6 +189,44 @@ def add_record(db_path, record):
         today = time.time()
         pre_hash = str(record["personne1"]) + "|" + str(record["personne2"]) + "|" + str(int(today)) + "|" + str(record["somme"])
         hash = hash_sha256(pre_hash)
+        query = 'INSERT INTO records (personne1, personne2, temps, somme, hash) VALUES (' + str(record["personne1"]) + ',' + str(record["personne2"]) + ',' + str(int(today)) + ',' + str(record["somme"]) + ',"' + hash + '")'
+        cur.execute(query)
+        cur.commit()
+
+    except Error as e:
+        print(e)
+    finally:
+        if conn:
+            conn.close()
+
+def add_record_v3(db_path, record):
+    """
+    record = {
+        "personne1" : "1",
+        "personne2" : "2",
+        "somme" : "144.56"
+    }
+    """
+
+    conn = None
+
+    try:
+        conn = sqlite3.connect(db_path)
+        cur = conn.cursor()
+
+        #On récupère le hash de la plus récente transaction
+        previous_hash = ""
+        query_hash = "SELECT hash from records WHERE temps = (SELECT MAX(temps) FROM records)"
+        cur.execute(query_hash)
+        rows = cur.fetchall()
+        for row in rows:
+            previous_hash = row[0]
+
+        today = time.time()
+        pre_hash = str(record["personne1"]) + "|" + str(record["personne2"]) + "|" + str(int(today)) + "|" + str(record["somme"])
+        hash = hash_sha256_v3(pre_hash, previous_hash) #On crée notre hash en tenant compte du hash précédent
+
+        #On insère l'enregistrement
         query = 'INSERT INTO records (personne1, personne2, temps, somme, hash) VALUES (' + str(record["personne1"]) + ',' + str(record["personne2"]) + ',' + str(int(today)) + ',' + str(record["somme"]) + ',"' + hash + '")'
         cur.execute(query)
         cur.commit()

@@ -65,6 +65,11 @@ Les requêtes créées sont :
     GET /check/data/<id>
     SELECT * FROM records WHERE id=1 (order by temps ASC)
 
+### Effectuer une transaction en tenant compte du hash de la plus récente transaction
+
+    POST /records/v3/<personne1>/<personne2>/<somme>
+    SELECT id from records WHERE temps = (SELECT MAX(temps) FROM records)
+
 D'autres requêtes pourront être imaginées par la suite.
 
 ## Database
