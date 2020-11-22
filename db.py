@@ -12,6 +12,7 @@ hash_sha256("1|2|1605721721|144", "25ae70e8e67e3f1f48227e70f603623cc72b26bda446a
 import sqlite3
 from sqlite3 import Error
 import time
+from datetime import datetime
 import hashlib
 
 def hash_sha256(text):
@@ -80,6 +81,7 @@ def check_hash_by_id(db_path, id):
 def select_records(db_path):
     rows = []
     conn = None
+    res = []
 
     try:
         conn = sqlite3.connect(db_path)
@@ -88,12 +90,16 @@ def select_records(db_path):
         query = "SELECT * FROM records ORDER BY temps ASC"
         cur.execute(query)
         rows = cur.fetchall()
+        for row in rows:
+            #row.append(datetime.fromtimestamp(row[3]))
+            #row = row + tuple(str(datetime.fromtimestamp(row[3])))
+            res.append(list(row) + [str(datetime.fromtimestamp(row[3]))])
     except Error as e:
         print(e)
     finally:
         if conn:
             conn.close()
-    return rows
+    return res
 
 def select_personnes(db_path):
     rows = []
