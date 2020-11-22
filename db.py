@@ -18,6 +18,64 @@ def hash_sha256(text):
     h.update(text.encode('ascii'))
     return h.hexdigest()
 
+def hash_sha256_v3(text,previous_hash):
+    text = text + "|" + previous_hash
+    h = hashlib.sha256()
+    h.update(text.encode('ascii'))
+    return h.hexdigest()
+
+def check_hash(db_path):
+    rows = []
+    conn = None
+    false_lines = []
+
+    try:
+        conn = sqlite3.connect(db_path)
+        cur = conn.cursor()
+        rows = []
+        query = "SELECT * FROM records"
+        cur.execute(query)
+        rows = cur.fetchall()
+
+        for row in rows:
+            calculated_hash = hash_sha256(str(row[0]) + "|" + str(row[1]) + "|" + str(row[2]) + "|" + str(row[3]))
+            
+            if(str(row[4]) != str(calculated_hash)):
+                false_lines.append(row)
+
+    except Error as e:
+        print(e)
+    finally:
+        if conn:
+            conn.close()
+    return false_lines
+    
+def check_hash_by_id(db_path, id):
+    rows = []
+    conn = None
+    false_lines = []
+
+    try:
+        conn = sqlite3.connect(db_path)
+        cur = conn.cursor()
+        rows = []
+        query = "SELECT * FROM records WHERE id=" + str(id)
+        cur.execute(query)
+        rows = cur.fetchall()
+
+        for row in rows:
+            calculated_hash = hash_sha256(str(row[0]) + "|" + str(row[1]) + "|" + str(row[2]) + "|" + str(row[3]))
+            
+            if(str(row[4]) != str(calculated_hash)):
+                false_lines.append(row)
+
+    except Error as e:
+        print(e)
+    finally:
+        if conn:
+            conn.close()
+    return false_lines
+
 def select_records(db_path):
     rows = []
     conn = None

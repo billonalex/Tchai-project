@@ -55,6 +55,16 @@ Les requêtes créées sont :
     GET /solde/<personne>
     SELECT SUM(somme) AS solde FROM records WHERE personne1=1
 
+### Vérifier l'intégrité des enregistrements
+
+    GET /check/data/
+    SELECT * FROM records (order by temps ASC)
+
+### Vérifier l'intégrité d'un enregistrement
+
+    GET /check/data/<id>
+    SELECT * FROM records WHERE id=1 (order by temps ASC)
+
 D'autres requêtes pourront être imaginées par la suite.
 
 ## Database
@@ -65,9 +75,9 @@ La base de données est actuellement composée de 2 tables : ```personne``` et `
 
 ```sql
 CREATE TABLE "personne" (
-	"id"	    INTEGER NOT NULL UNIQUE,
-	"nom"	    TEXT NOT NULL,
-	"prenom"	TEXT NOT NULL,
+	"id"        INTEGER NOT NULL UNIQUE,
+	"nom"       TEXT NOT NULL,
+	"prenom"    TEXT NOT NULL,
 	PRIMARY KEY("id" AUTOINCREMENT)
 )
 ```
@@ -77,12 +87,12 @@ CREATE TABLE "personne" (
 
 ```sql
 CREATE TABLE "records" (
-	"id"	    INTEGER NOT NULL UNIQUE,
-	"personne1"	INTEGER NOT NULL,
-	"personne2"	INTEGER NOT NULL,
-	"temps"	    INTEGER NOT NULL,
-	"somme"	    NUMERIC NOT NULL,
-	"hash"	    TEXT NOT NULL,
+	"id"        INTEGER NOT NULL UNIQUE,
+	"personne1" INTEGER NOT NULL,
+	"personne2" INTEGER NOT NULL,
+	"temps"     INTEGER NOT NULL,
+	"somme"     NUMERIC NOT NULL,
+	"hash"      TEXT NOT NULL,
 	PRIMARY KEY("id" AUTOINCREMENT),
 	FOREIGN KEY("personne1") REFERENCES "personne"("id"),
 	FOREIGN KEY("personne2") REFERENCES "personne"("id")
@@ -113,4 +123,4 @@ On encode le tuple avec ces informations :
     temps
     somme
 
-On crée une chaine ```"{id_personne1}|{id_personne2}|{temps}|{somme}"``` qu'on enverrai dans une méthode de hashage SHA-256.
+On crée une chaine ```"{id_personne1}|{id_personne2}|{temps}|{somme}"``` qu'on enverra dans une méthode de hashage SHA-256.

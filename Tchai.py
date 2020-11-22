@@ -15,6 +15,9 @@ Requêtes API :
     done - Consulter les transactions dans l'ordre chronologique                     : GET /records                                          : SELECT * FROM records (order by temps ASC)
     done - Consulter les transactions dans l'ordre chronologique pour une personne   : GET /records/<personne>                               : SELECT * FROM records WHERE personne1=1 (order by temps ASC)
     done - Afficher le solde d'une personne                                          : GET /solde/<personne>                                 : SELECT SUM(somme) AS solde FROM records WHERE personne1=1
+
+    done - Vérifier l'intégrité des données                                          : GET /check/data/                                      : SELECT * FROM records (order by temps ASC)
+    done - Vérifier l'intégrité d'un enregistrement                                  : GET /check/data/<id>                                  : SELECT * FROM records WHERE id=1 (order by temps ASC)
 """
 
 import sqlite3
@@ -83,6 +86,14 @@ def del_record(id):
 @app.route('/solde/<personne>', methods=['GET'])
 def solde_personne(personne):
     return str(get_solde(db_path, int(personne)))
-    
+
+@app.route('/check/data', methods=['GET'])
+def check():
+    return str(check_hash(db_path))   
+
+@app.route('/check/data/<id>', methods=['GET'])
+def check_by_id(id):
+    return str(check_hash_by_id(db_path, id))    
+
 # Why won't we run our app ?
 app.run(host='127.0.0.1', debug=True)
