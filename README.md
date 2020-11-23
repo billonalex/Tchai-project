@@ -129,3 +129,8 @@ On encode le tuple avec ces informations :
     somme
 
 On crée une chaine ```"{id_personne1}|{id_personne2}|{temps}|{somme}"``` qu'on enverra dans une méthode de hashage SHA-256.
+
+## Auteurs
+
+    Alexandre BILLON
+    Noémie Chevalier
