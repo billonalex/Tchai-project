@@ -51,6 +51,37 @@ def check_hash(db_path):
         if conn:
             conn.close()
     return false_lines
+
+def check_hash_v3(db_path):
+    rows = []
+    conn = None
+    false_lines = []
+
+    try:
+        conn = sqlite3.connect(db_path)
+        cur = conn.cursor()
+        rows = []
+        query = "SELECT * FROM records"
+        cur.execute(query)
+        rows = cur.fetchall()
+
+        for i in range(len(rows)):
+            calculated_hash = ""
+
+            if(i == 0):
+                calculated_hash = hash_sha256(str(rows[i][1]) + "|" + str(rows[i][2]) + "|" + str(rows[i][3]) + "|" + str(rows[i][4]))
+            else:
+                calculated_hash = hash_sha256_v3(str(rows[i][1]) + "|" + str(rows[i][2]) + "|" + str(rows[i][3]) + "|" + str(rows[i][4]), str(rows[i-1][5]))
+            
+            if(str(rows[i][5]) != str(calculated_hash)):
+                false_lines.append(rows[i])
+
+    except Error as e:
+        print(e)
+    finally:
+        if conn:
+            conn.close()
+    return false_lines
     
 def check_hash_by_id(db_path, id):
     rows = []

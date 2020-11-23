@@ -83,11 +83,22 @@ CREATE TABLE "personne" (
 	"id"        INTEGER NOT NULL UNIQUE,
 	"nom"       TEXT NOT NULL,
 	"prenom"    TEXT NOT NULL,
-	"rsa_pub"   TEXT NOT NULL,
 	PRIMARY KEY("id" AUTOINCREMENT)
 )
 ```
 - Par la suite, nous pouvons, si nous le souhaitons, ajouter des données supplémentaires à la table personne.
+
+### Table public_key :
+
+```sql
+CREATE TABLE "personne" (
+	"id"        INTEGER NOT NULL UNIQUE,
+	"personne"  INTEGER NOT NULL,
+	"rsa_pub"   TEXT NOT NULL,
+	PRIMARY KEY("id" AUTOINCREMENT),
+	FOREIGN KEY("personne") REFERENCES "personne"("id"),
+)
+```
 
 ### Table records :
 
