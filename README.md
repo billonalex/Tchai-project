@@ -121,6 +121,12 @@ Les tests et attaques sont développés dans le script ```tests/attack.py```
 Il est possible de modifier le fichier de données à partir de n'importe quelle application de gestion de SQLite :
 ![alt text](pictures/dbBrowser.JPG)
 
+### Ajout des hash
+
+Après l'ajout des hash, si le fichier de données est modifié, lors de la vérification, s'affichera les transactions dont le hash sauvegardé ne correspond pas avec le hash de la transaction calculé.
+![alt text](pictures/attaqueHash.JPG)
+
+
 Test de suppression + vérification intégrité
 
 Suppression : deprecated for v3 --> 404
