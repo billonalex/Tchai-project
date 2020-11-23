@@ -42,7 +42,7 @@ def check_hash(db_path):
         for row in rows:
             calculated_hash = hash_sha256(str(row[1]) + "|" + str(row[2]) + "|" + str(row[3]) + "|" + str(row[4]))
             
-            if(str(row[4]) != str(calculated_hash)):
+            if(str(row[5]) != str(calculated_hash)):
                 false_lines.append(row)
 
     except Error as e:
@@ -68,7 +68,7 @@ def check_hash_by_id(db_path, id):
         for row in rows:
             calculated_hash = hash_sha256(str(row[1]) + "|" + str(row[2]) + "|" + str(row[3]) + "|" + str(row[4]))
             
-            if(str(row[4]) != str(calculated_hash)):
+            if(str(row[5]) != str(calculated_hash)):
                 false_lines.append(row)
 
     except Error as e:
