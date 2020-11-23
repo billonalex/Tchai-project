@@ -299,7 +299,7 @@ def get_solde(db_path,id):
         cur.execute(query)
         rows = cur.fetchall()
 
-        if(len(rows) > 0):
+        if(len(rows) > 0 and type(rows[0][0]) != type(None)):
             for row in rows :
                 debit = int(row[0])
 
@@ -307,7 +307,9 @@ def get_solde(db_path,id):
         query = "SELECT SUM(SOMME) FROM records WHERE personne2=" + str(id)
         cur.execute(query)
         rows = cur.fetchall()
-        if(len(rows) > 0):
+        print(type(rows[0][0]))
+        print(type(None))
+        if(len(rows) > 0 and type(rows[0][0]) != type(None)):
             for row in rows:
                 credit = int(row[0])
     except Error as e:

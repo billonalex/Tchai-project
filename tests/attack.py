@@ -15,6 +15,6 @@ address = "http://127.0.0.1:5000"
 req = "/personnes"
 
 #print(requests.post('http://127.0.0.1:5000/personnes/TESTNOM/testprenom').text)
-print(requests.delete('http://127.0.0.1:5000/personnes/4').text)
+#print(requests.delete('http://127.0.0.1:5000/personnes/4').text)
 print(requests.get('http://127.0.0.1:5000/personnes').text)
 print(requests.get('http://127.0.0.1:5000/personnes/1').text)

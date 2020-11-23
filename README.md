@@ -116,6 +116,11 @@ Cependant il est peu compréhensible par l'homme. C'est pourquoi il sera reconve
 
 Les tests et attaques sont développés dans le script ```tests/attack.py```
 
+### Test de la modification du fichier de données
+
+Il est possible de modifier le fichier de données à partir de n'importe quelle application de gestion de SQLite :
+![alt text](pictures/dbBrowser.JPG)
+
 Test de suppression + vérification intégrité
 
 Suppression : deprecated for v3 --> 404
