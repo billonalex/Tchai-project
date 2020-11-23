@@ -289,15 +289,29 @@ def get_solde(db_path,id):
     conn = None
 
     try:
+        debit = 0
+        credit = 0
         conn = sqlite3.connect(db_path)
         cur = conn.cursor()
+
         rows = []
         query = "SELECT SUM(SOMME) FROM records WHERE personne1=" + str(id)
         cur.execute(query)
         rows = cur.fetchall()
+
+        for row in rows :
+            debit = int(row[0])
+
+        rows = []
+        query = "SELECT SUM(SOMME) FROM records WHERE personne2=" + str(id)
+        cur.execute(query)
+        rows = cur.fetchall()
+
+        for row in rows:
+            credit = int(row[0])
     except Error as e:
         print(e)
     finally:
         if conn:
             conn.close()
-    return rows
+    return (credit - debit)
