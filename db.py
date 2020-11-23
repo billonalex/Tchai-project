@@ -5,7 +5,7 @@ Created on Wed Nov 18 14:07:21 2020
 @author: Alexandre
 
 hash_sha256("1|2|1605721721|144")
-hash_sha256("1|2|1605721721|144", "25ae70e8e67e3f1f48227e70f603623cc72b26bda446ace306f61dad0101fc3d")
+hash_sha256_v3("1|2|1605721721|144", "25ae70e8e67e3f1f48227e70f603623cc72b26bda446ace306f61dad0101fc3d")
 
 """
 
@@ -40,7 +40,7 @@ def check_hash(db_path):
         rows = cur.fetchall()
 
         for row in rows:
-            calculated_hash = hash_sha256(str(row[0]) + "|" + str(row[1]) + "|" + str(row[2]) + "|" + str(row[3]))
+            calculated_hash = hash_sha256(str(row[1]) + "|" + str(row[2]) + "|" + str(row[3]) + "|" + str(row[4]))
             
             if(str(row[4]) != str(calculated_hash)):
                 false_lines.append(row)
@@ -66,7 +66,7 @@ def check_hash_by_id(db_path, id):
         rows = cur.fetchall()
 
         for row in rows:
-            calculated_hash = hash_sha256(str(row[0]) + "|" + str(row[1]) + "|" + str(row[2]) + "|" + str(row[3]))
+            calculated_hash = hash_sha256(str(row[1]) + "|" + str(row[2]) + "|" + str(row[3]) + "|" + str(row[4]))
             
             if(str(row[4]) != str(calculated_hash)):
                 false_lines.append(row)

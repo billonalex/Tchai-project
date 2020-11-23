@@ -53,7 +53,7 @@ Les requêtes créées sont :
 ### Afficher le solde d'une personne
 
     GET /solde/<personne>
-    SELECT SUM(somme) AS solde FROM records WHERE personne1=1
+    SELECT SUM(somme) AS solde FROM records WHERE personne1=1 - SELECT SUM(somme) AS solde FROM records WHERE personne2=1
 
 ### Vérifier l'intégrité des enregistrements
 
@@ -83,6 +83,7 @@ CREATE TABLE "personne" (
 	"id"        INTEGER NOT NULL UNIQUE,
 	"nom"       TEXT NOT NULL,
 	"prenom"    TEXT NOT NULL,
+	"rsa_pub"   TEXT NOT NULL,
 	PRIMARY KEY("id" AUTOINCREMENT)
 )
 ```
@@ -115,7 +116,9 @@ Cependant il est peu compréhensible par l'homme. C'est pourquoi il sera reconve
 
 Les tests et attaques sont développés dans le script ```tests/attack.py```
 
+Test de suppression + vérification intégrité
 
+Suppression : deprecated for v3 --> 404
 
 ## Hash
 
@@ -132,5 +135,5 @@ On crée une chaine ```"{id_personne1}|{id_personne2}|{temps}|{somme}"``` qu'on 
 
 ## Auteurs
 
-    Alexandre BILLON
-    Noémie Chevalier
+    Alexandre BILLON - alexandre_billon@etu.u-bourgogne.fr
+    Noémie CHEVALIER - noemie_chevalier01@etu.u-bourgogne.fr
