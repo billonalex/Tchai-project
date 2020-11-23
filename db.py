@@ -299,16 +299,17 @@ def get_solde(db_path,id):
         cur.execute(query)
         rows = cur.fetchall()
 
-        for row in rows :
-            debit = int(row[0])
+        if(len(rows) > 0):
+            for row in rows :
+                debit = int(row[0])
 
         rows = []
         query = "SELECT SUM(SOMME) FROM records WHERE personne2=" + str(id)
         cur.execute(query)
         rows = cur.fetchall()
-
-        for row in rows:
-            credit = int(row[0])
+        if(len(rows) > 0):
+            for row in rows:
+                credit = int(row[0])
     except Error as e:
         print(e)
     finally:
