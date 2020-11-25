@@ -127,15 +127,28 @@ Cependant il est peu compréhensible par l'homme. C'est pourquoi il sera reconve
 
 Les tests et attaques sont développés dans le script ```tests/attack.py```
 
-### Test de la modification du fichier de données
+### Test de la modification du fichier de données sans hash v1
 
 Il est possible de modifier le fichier de données à partir de n'importe quelle application de gestion de SQLite :
 ![alt text](pictures/dbBrowser.JPG)
 
-### Ajout des hash
+### Ajout des hash v2
 
-Après l'ajout des hash, si le fichier de données est modifié, lors de la vérification, s'affichera les transactions dont le hash sauvegardé ne correspond pas avec le hash de la transaction calculé.
+Après l'ajout des hash, si le fichier de données est modifié, lors de la vérification, s'afficheront les transactions dont le hash sauvegardé ne correspond plus avec le hash de la transaction calculé. On détecte donc qu'il y a eu une attaque.
 ![alt text](pictures/attaqueHash.JPG)
+
+### Suppression d'une transaction dans le fichier de données v2
+
+La suppression d'une transaction est totelement invisible lors de la vérification. Cette attaque peut donner lieu à une double dépense.
+![alt text](pictures/suppressionRecords.JPG)
+![alt text](pictures/suppressionVerification.JPG)
+
+### Suppression d'une transaction dans le fichier de données v3
+
+Avec l'implémentation du hash lié au hash précédent, on remarque tout de suite lorsqu'il y a eu une modification sur les transactions.
+
+### Ajout d'une transaction d'une autre personne vers l'attaquant v3
+
 
 
 Test de suppression + vérification intégrité
