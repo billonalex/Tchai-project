@@ -72,6 +72,28 @@ Les requêtes créées sont :
 
 D'autres requêtes pourront être imaginées par la suite.
 
+## Architecture
+
+Le projet se compose de deux fichiers principaux et d'un fichier de base de données :
+
+### Tchai.py
+
+Ce fichier permet de décrire chaque requête API utilisable (ou deprecated) du projet.
+
+### db.py
+
+Ce fichier  contient l'ensemble des fonctions utiles au bon fonctionnement du projet.
+
+C'est notamment ici que l'on intéragit avec la base de données afin d'enregistrer des transactions, vérifier l'intégrité des données, modifier des informations, les afficher, etc.
+
+### Répertoire tests
+
+Ce répertoire contient l'ensemble des scripts permettant de tester l'API, de lancer des attaques, et ainsi comprendre comment réagit le système aux attaques.
+
+### db/tchai.db
+
+Ce fichier correspond à la base de données SQLite utilisée dans le projet. Son architecture est décrite dans la section suivante.
+
 ## Database
 
 La base de données est actuellement composée de 2 tables : ```personne``` et ```record```
