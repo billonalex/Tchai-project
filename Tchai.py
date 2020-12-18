@@ -90,6 +90,16 @@ def new_record_v3(personne1, personne2, somme):
     }
     add_record_v3(db_path, record)
 
+@app.route('/records/v4/<personne1>/<personne2>/<somme>/<signature> ', methods=['POST'])
+def new_record_v4(personne1, personne2, somme, signature):
+    record = {
+        "personne1" : personne1,
+        "personne2" : personne2,
+        "somme" : somme,
+        "signature" : signature
+    }
+    add_record_v4(db_path, record)
+
 @app.route('/records/<id>', methods=['DELETE'])
 def del_record(id):
     delete_record(db_path, id)
