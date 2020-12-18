@@ -59,6 +59,7 @@ def new_personne(nom, prenom):
         "prenom": prenom
     }
     add_personne(db_path, p)
+    return ""
 
 @app.route('/personnes/<id>', methods=['DELETE'])
 def rm_per(id):
@@ -72,23 +73,25 @@ def liste_records():
 def liste_records_personne1(personne):
     return str(get_record_by_personne1(db_path, int(personne)))
 
-@app.route('/records/<personne1>/<personne2>/<somme> ', methods=['POST'])
+@app.route('/records/<personne1>/<personne2>/<somme>', methods=['POST'])
 def new_record(personne1, personne2, somme):
     record = {
         "personne1" : personne1,
         "personne2" : personne2,
-        "somme" : somme,
+        "somme" : somme
     }
     add_record(db_path, record)
+    return ""
 
-@app.route('/records/v3/<personne1>/<personne2>/<somme> ', methods=['POST'])
+@app.route('/records/v3/<personne1>/<personne2>/<somme>', methods=['POST'])
 def new_record_v3(personne1, personne2, somme):
     record = {
         "personne1" : personne1,
         "personne2" : personne2,
-        "somme" : somme,
+        "somme" : somme
     }
     add_record_v3(db_path, record)
+    return ""
 
 @app.route('/records/v4/<personne1>/<personne2>/<somme>/<signature> ', methods=['POST'])
 def new_record_v4(personne1, personne2, somme, signature):
@@ -111,6 +114,10 @@ def solde_personne(personne):
 @app.route('/check/data', methods=['GET'])
 def check():
     return str(check_hash(db_path))   
+
+@app.route('/check/data/v3', methods=['GET'])
+def check_v3():
+    return str(check_hash_v3(db_path))  
 
 @app.route('/check/data/<id>', methods=['GET'])
 def check_by_id(id):

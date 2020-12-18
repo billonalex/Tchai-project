@@ -228,7 +228,7 @@ def add_record(db_path, record):
         hash = hash_sha256(pre_hash)
         query = 'INSERT INTO records (personne1, personne2, temps, somme, hash) VALUES (' + str(record["personne1"]) + ',' + str(record["personne2"]) + ',' + str(int(today)) + ',' + str(record["somme"]) + ',"' + hash + '")'
         cur.execute(query)
-        cur.commit()
+        conn.commit()
 
     except Error as e:
         print(e)
@@ -272,7 +272,7 @@ def add_record_v3(db_path, record):
         #On insère l'enregistrement
         query = 'INSERT INTO records (personne1, personne2, temps, somme, hash) VALUES (' + str(record["personne1"]) + ',' + str(record["personne2"]) + ',' + str(int(today)) + ',' + str(record["somme"]) + ',"' + hash + '")'
         cur.execute(query)
-        cur.commit()
+        conn.commit()
 
     except Error as e:
         print(e)
@@ -289,7 +289,7 @@ def delete_record(db_path, id):
         cur = conn.cursor()
         query = 'DELETE FROM records WHERE id=' + str(id)
         cur.execute(query)
-        cur.commit()
+        conn.commit()
 
     except Error as e:
         print(e)
@@ -338,8 +338,6 @@ def get_solde(db_path,id):
         query = "SELECT SUM(SOMME) FROM records WHERE personne2=" + str(id)
         cur.execute(query)
         rows = cur.fetchall()
-        print(type(rows[0][0]))
-        print(type(None))
         if(len(rows) > 0 and type(rows[0][0]) != type(None)):
             for row in rows:
                 credit = int(row[0])
