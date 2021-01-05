@@ -36,22 +36,27 @@ names = [e[1] + " " + e[2] for e in select_personnes(db_path)]
 
 # Let's define some routes :
 
+# Accueil avec la liste des personnes
 @app.route('/')
 def hello():
     return 'Hello <ul>'+''.join(['<li>'+ n for n in names]) +'</ul>\n', 200
 
+# Favicon
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
+# Affichage des personnes
 @app.route('/personnes/', methods=['GET'])
 def liste_personne():
     return str(select_personnes(db_path))
 
+# Affichage de la personne spécifiée par son id
 @app.route('/personnes/<id>', methods=['GET'])
 def get_personne_by_id(id):
     return str(get_personne(db_path,int(id)))
 
+# Ajout d'une personne avec son nom et son prénom
 @app.route('/personnes/<nom>/<prenom>', methods=['POST'])
 def new_personne(nom, prenom):
     p = {
@@ -61,18 +66,22 @@ def new_personne(nom, prenom):
     add_personne(db_path, p)
     return ""
 
+# Suppression de la personne spécifiée par son id
 @app.route('/personnes/<id>', methods=['DELETE'])
 def rm_per(id):
     delete_personne(db_path, int(id))
 
+# Affichage de la personne spécifiée par son id
 @app.route('/records/', methods=['GET'])
 def liste_records():
     return str(select_records(db_path))
 
+# Affichage des transactions
 @app.route('/records/<personne>', methods=['GET'])
 def liste_records_personne1(personne):
     return str(get_record_by_personne1(db_path, int(personne)))
 
+# Enregistrement d'une nouvelle transaction
 @app.route('/records/<personne1>/<personne2>/<somme>', methods=['POST'])
 def new_record(personne1, personne2, somme):
     record = {

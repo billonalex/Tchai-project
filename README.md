@@ -161,7 +161,7 @@ Après l'ajout des hash, si le fichier de données est modifié, lors de la vér
 
 ### Suppression d'une transaction dans le fichier de données v2
 
-La suppression d'une transaction est totelement invisible lors de la vérification. Cette attaque peut donner lieu à une double dépense.
+La suppression d'une transaction est totalement invisible lors de la vérification. Cette attaque peut donner lieu à une double dépense.
 ![alt text](pictures/suppressionRecords.JPG)
 ![alt text](pictures/suppressionVerification.JPG)
 
@@ -170,10 +170,8 @@ La suppression d'une transaction est totelement invisible lors de la vérificati
 Avec l'implémentation du hash lié au hash précédent, on remarque tout de suite lorsqu'il y a eu une modification sur les transactions.
 
 ### Ajout d'une transaction d'une autre personne vers l'attaquant v3
-
-
-
-Test de suppression + vérification intégrité
+On ajoute une transaction directement dans le fichier de données avec un hash aléatoire. Lors de la vérification, la transaction est incorrecte
+![alt text](pictures/checkDataV3.JPG)
 
 Suppression : deprecated for v3 --> 404
 
