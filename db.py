@@ -9,18 +9,7 @@ hash_sha256_v3("1|2|1605721721|144", "25ae70e8e67e3f1f48227e70f603623cc72b26bda4
 
 """
 
-from uuid import uuid4
-import os
-import binascii
-from Crypto.Cipher import PKCS1_OAEP
-from Crypto import Random
-from Crypto.PublicKey import RSA
-import base64
-import sqlite3
-from sqlite3 import Error
-import time
-from datetime import datetime
-import hashlib
+from RSA import *
 
 def hash_sha256(text):
     h = hashlib.sha256()
@@ -199,6 +188,40 @@ def add_personne(db_path, personne):
         if conn:
             conn.close()
 
+def add_personne_v4(db_path, personne):
+    """
+    personne = {
+        "nom" : "BILLON",
+        "prenom" : "Alexandre"
+    }
+    """
+    conn = None
+
+    try:
+        conn = sqlite3.connect(db_path)
+        cur = conn.cursor()
+        
+        today = time.time()
+        query = 'INSERT INTO personne (nom, prenom) VALUES ("' + personne["nom"] + '", "' + personne["prenom"] + '")'
+        cur.execute(query)
+        conn.commit()
+
+        rows = []
+        id_personne = -1
+        select_query = "SELECT id FROM personne WHERE nom LIKE \"" + personne["nom"] + "\" AND prenom LIKE \"" + personne["prenom"] + "\""
+        cur.execute(select_query)
+        rows = cur.fetchall()
+        for row in rows:
+            id_personne = row[0]
+        if id_personne != -1:
+            write_key_in_db(db_path, id_personne)
+
+    except Error as e:
+        print(e)
+    finally:
+        if conn:
+            conn.close()
+
 def delete_personne(db_path, id):
     conn = None
 
@@ -244,6 +267,50 @@ def add_record(db_path, record):
             conn.close()
 
 def add_record_v3(db_path, record):
+    """
+    record = {
+        "personne1" : "1",
+        "personne2" : "2",
+        "somme" : "144.56"
+    }
+    """
+
+    conn = None
+
+    try:
+        conn = sqlite3.connect(db_path)
+        cur = conn.cursor()
+
+        #On récupère le hash de la plus récente transaction
+        previous_hash = ""
+        query_hash = "SELECT hash from records WHERE temps = (SELECT MAX(temps) FROM records)"
+        cur.execute(query_hash)
+        rows = cur.fetchall()
+
+        if(len(rows) == 0): #On est sur la première transaction
+            today = time.time()
+            pre_hash = str(record["personne1"]) + "|" + str(record["personne2"]) + "|" + str(int(today)) + "|" + str(record["somme"])
+            hash = hash_sha256(pre_hash)
+
+        else: #Il y a déjà une transaction dans la base, on peut utiliser le hash précédent !
+            for row in rows:
+                previous_hash = row[0]
+            today = time.time()
+            pre_hash = str(record["personne1"]) + "|" + str(record["personne2"]) + "|" + str(int(today)) + "|" + str(record["somme"])
+            hash = hash_sha256_v3(pre_hash, previous_hash) #On crée notre hash en tenant compte du hash précédent
+
+        #On insère l'enregistrement
+        query = 'INSERT INTO records (personne1, personne2, temps, somme, hash) VALUES (' + str(record["personne1"]) + ',' + str(record["personne2"]) + ',' + str(int(today)) + ',' + str(record["somme"]) + ',"' + hash + '")'
+        cur.execute(query)
+        conn.commit()
+
+    except Error as e:
+        print(e)
+    finally:
+        if conn:
+            conn.close()
+
+def add_record_v4(db_path, record):
     """
     record = {
         "personne1" : "1",

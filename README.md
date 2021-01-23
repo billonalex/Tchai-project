@@ -31,6 +31,12 @@ Les requêtes créées sont :
 
     POST /personne/<nom>/<prenom>
     INSERT INTO personne (nom,prenom) VALUES ("BILLON", "Alexandre")
+    
+### V4 - Ajouter une personne avec génération de clés RSA
+
+    POST /personne/v4/<nom>/<prenom>
+    INSERT INTO personne (nom,prenom) VALUES ("BILLON", "Alexandre")
+    INSERT INTO public_key (personne,rsa_pub) VALUES (1, {Clé RSA})
 
 ### Supprimer une personne
 
@@ -130,7 +136,7 @@ CREATE TABLE "personne" (
 ### Table public_key :
 
 ```sql
-CREATE TABLE "personne" (
+CREATE TABLE "public_key" (
 	"id"        INTEGER NOT NULL UNIQUE,
 	"personne"  INTEGER NOT NULL,
 	"rsa_pub"   TEXT NOT NULL,
@@ -149,6 +155,7 @@ CREATE TABLE "records" (
 	"temps"     INTEGER NOT NULL,
 	"somme"     NUMERIC NOT NULL,
 	"hash"      TEXT NOT NULL,
+    "signature" TEXT NOT NULL,
 	PRIMARY KEY("id" AUTOINCREMENT),
 	FOREIGN KEY("personne1") REFERENCES "personne"("id"),
 	FOREIGN KEY("personne2") REFERENCES "personne"("id")
@@ -208,6 +215,12 @@ On encode le tuple avec ces informations :
     somme
 
 On crée une chaine ```"{id_personne1}|{id_personne2}|{temps}|{somme}"``` qu'on enverra dans une méthode de hashage SHA-256.
+
+## RSA
+
+A l'ajout d'une nouvelle personne, une paire de clés RSA est générée automatiquement. La clé publique est directement stockée en base, tandis que la clé privée est stockée dans le dossier ```private_key``` sous la forme ```{id_personne}.txt```.
+
+Le stockage de cette clé privée est temporaire, et sera à envoyer à la personne concernée pour utilisation.
 
 ## Auteurs
 
