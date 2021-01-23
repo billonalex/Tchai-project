@@ -2,9 +2,26 @@
 
 ## Usage
 
-- Run ```python Tchai.py``` in a shell
-- Then you can access to ```http://127.0.0.1:5000/``` in your favourite browser
-- You can use this address to send your API requests
+### Back
+
+- Executez la commande ```python Tchai.py``` dans un terminal
+- Vous pouvez alors accéder à l'adresse ```http://127.0.0.1:5000/``` dans votre navigateur
+- Vous pouvez utiliser cette même adresse pour effectuer vos requêtes API.
+
+### Front
+
+Un client développé en Preact est disponible dans le dossier ```front```.
+
+On y accède avec les commandes :
+```sh
+$ cd front
+$ npm install
+$ npm run dev
+```
+
+L'application est ensuite disponible à l'adresse ```http://127.0.0.1:8080/```
+
+Pour pour de détails, vous pouvez consulter le ```README.md``` disponible dans le dossier ```front```.
 
 ## Requêtes API :
 
@@ -152,16 +169,19 @@ Les tests et attaques sont développés dans le script ```tests/attack.py```
 ### Test de la modification du fichier de données sans hash v1
 
 Il est possible de modifier le fichier de données à partir de n'importe quelle application de gestion de SQLite :
+
 ![alt text](pictures/dbBrowser.JPG)
 
 ### Ajout des hash v2
 
 Après l'ajout des hash, si le fichier de données est modifié, lors de la vérification, s'afficheront les transactions dont le hash sauvegardé ne correspond plus avec le hash de la transaction calculé. On détecte donc qu'il y a eu une attaque.
+
 ![alt text](pictures/attaqueHash.JPG)
 
 ### Suppression d'une transaction dans le fichier de données v2
 
 La suppression d'une transaction est totalement invisible lors de la vérification. Cette attaque peut donner lieu à une double dépense.
+
 ![alt text](pictures/suppressionRecords.JPG)
 ![alt text](pictures/suppressionVerification.JPG)
 
@@ -171,6 +191,7 @@ Avec l'implémentation du hash lié au hash précédent, on remarque tout de sui
 
 ### Ajout d'une transaction d'une autre personne vers l'attaquant v3
 On ajoute une transaction directement dans le fichier de données avec un hash aléatoire. Lors de la vérification, la transaction est incorrecte
+
 ![alt text](pictures/checkDataV3.JPG)
 
 Suppression : deprecated for v3 --> 404

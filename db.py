@@ -9,6 +9,13 @@ hash_sha256_v3("1|2|1605721721|144", "25ae70e8e67e3f1f48227e70f603623cc72b26bda4
 
 """
 
+from uuid import uuid4
+import os
+import binascii
+from Crypto.Cipher import PKCS1_OAEP
+from Crypto import Random
+from Crypto.PublicKey import RSA
+import base64
 import sqlite3
 from sqlite3 import Error
 import time

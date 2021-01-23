@@ -1,0 +1,23 @@
+[
+    {
+        "number": "0.0.1",
+        "build": 3,
+        "date": "Jan 03 2021",
+        "items": [
+            {
+                "type": "UPDATE",
+                "content": "Version initiale"
+            }
+        ]
+    },{
+        "number": "0.0.1",
+        "build": 1,
+        "date": "Dec 27 2020",
+        "items": [
+            {
+                "type": "NEW",
+                "content": "Version initiale"
+            }
+        ]
+    }
+]
