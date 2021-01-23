@@ -42,13 +42,10 @@ def decrypt_public_key(encoded_encrypted_msg, public_key):
 def generate_key():
     return binascii.hexlify(os.urandom(20)).decode()
 
-def write_key_in_db(db_path, personne):
-    conn = None
-
+def write_key_in_db(conn, personne):
     try:
         key = RSA.generate(2048)
         pub_key = key.publickey()
-        conn = sqlite3.connect(db_path)
         cur = conn.cursor()
         query = "UPDATE public_key SET rsa_pub = \"" + str(pub_key.exportKey('PEM')) + "\" WHERE personne=" + str(personne)
         cur.execute(query)
@@ -62,10 +59,6 @@ def write_key_in_db(db_path, personne):
 
     except Error as e:
         print(e)
-    finally:
-        if conn:
-            conn.close()
-        print("Done !")
 
 #write_key_in_db(1)
 #write_key_in_db(2)

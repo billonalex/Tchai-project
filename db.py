@@ -214,7 +214,7 @@ def add_personne_v4(db_path, personne):
         for row in rows:
             id_personne = row[0]
         if id_personne != -1:
-            write_key_in_db(db_path, id_personne)
+            write_key_in_db(conn, id_personne)
 
     except Error as e:
         print(e)
