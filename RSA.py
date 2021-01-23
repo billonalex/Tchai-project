@@ -47,7 +47,7 @@ def write_key_in_db(conn, personne):
         key = RSA.generate(2048)
         pub_key = key.publickey()
         cur = conn.cursor()
-        query = "UPDATE public_key SET rsa_pub = \"" + str(pub_key.exportKey('PEM')) + "\" WHERE personne=" + str(personne)
+        query = "INSERT INTO public_key (personne, rsa_pub) VALUES (\"" + str(personne) + "\", \"" + str(pub_key.exportKey('PEM')) + "\")"
         cur.execute(query)
         priv_file = open("private_key/" + str(personne) + ".txt", "w")
 

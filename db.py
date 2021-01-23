@@ -315,7 +315,8 @@ def add_record_v4(db_path, record):
     record = {
         "personne1" : "1",
         "personne2" : "2",
-        "somme" : "144.56"
+        "somme" : "144.56",
+        "signature" : {signature}
     }
     """
 
@@ -327,6 +328,7 @@ def add_record_v4(db_path, record):
 
         #On récupère le hash de la plus récente transaction
         previous_hash = ""
+        hash=""
         query_hash = "SELECT hash from records WHERE temps = (SELECT MAX(temps) FROM records)"
         cur.execute(query_hash)
         rows = cur.fetchall()
@@ -344,7 +346,7 @@ def add_record_v4(db_path, record):
             hash = hash_sha256_v3(pre_hash, previous_hash) #On crée notre hash en tenant compte du hash précédent
 
         #On insère l'enregistrement
-        query = 'INSERT INTO records (personne1, personne2, temps, somme, hash) VALUES (' + str(record["personne1"]) + ',' + str(record["personne2"]) + ',' + str(int(today)) + ',' + str(record["somme"]) + ',"' + hash + '")'
+        query = 'INSERT INTO records (personne1, personne2, temps, somme, hash, signature) VALUES (' + str(record["personne1"]) + ',' + str(record["personne2"]) + ',' + str(int(today)) + ',' + str(record["somme"]) + ',"' + hash + '", "' + str(record["signature"]) + '")'
         cur.execute(query)
         conn.commit()
 
