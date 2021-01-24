@@ -171,7 +171,8 @@ Cependant il est peu compréhensible par l'homme. C'est pourquoi il sera reconve
 
 ## Tests et attaques
 
-Les tests et attaques sont développés dans le script ```tests/attack.py```
+Les tests et attaques sont développés dans le script ```tests/attack.py```.
+Executez la commande ```python tests/attack.py``` dans un terminal autre que celui qui a permis de lancer le serveur. 
 
 ### Test de la modification du fichier de données sans hash v1
 

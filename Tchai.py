@@ -67,13 +67,15 @@ def new_personne(nom, prenom):
     return ""
 
 # V4 - Ajout d'une personne avec son nom et son prénom + Génération d'une clé RSA
-@app.route('/personnes/v4/<nom>/<prenom>', methods=['POST'])
-def new_personne_v4(nom, prenom):
+@app.route('/personnes/v4/<nom>/<prenom>/<mail>/<password>', methods=['POST'])
+def new_personne_v4(nom, prenom, mail, password):
     p = {
         "nom": nom,
-        "prenom": prenom
+        "prenom": prenom,
+        "mail": mail,
+        "password": password
     }
-    add_personne_v4(db_path, p)
+    add_personne_v4_RSA(db_path, p)
     return ""
 
 # Suppression de la personne spécifiée par son id

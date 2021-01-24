@@ -222,13 +222,50 @@ def add_personne_v4(db_path, personne):
         if conn:
             conn.close()
 
+#Ajout d'une personne avec nom, prénom, adresse mail + mot de passe en v4 avec clé RSA
+def add_personne_v4_RSA(db_path, personne):
+    """
+    personne = {
+        "nom" : "BILLON",
+        "prenom" : "Alexandre"
+        "mail" : "alexandre_billon@etu.u-bourgogne.fr"
+        "password" : "alex"
+    }
+    """
+    conn = None
+
+    try:
+        conn = sqlite3.connect(db_path)
+        cur = conn.cursor()
+        
+        today = time.time()
+        query = 'INSERT INTO personne (nom, prenom, mail, password) VALUES ("' + personne["nom"] + '", "' + personne["prenom"] + '", "' + personne["mail"] + '", "' + personne["password"] + '")'
+        cur.execute(query)
+        conn.commit()
+
+        rows = []
+        id_personne = -1
+        select_query = "SELECT id FROM personne WHERE nom LIKE \"" + personne["nom"] + "\" AND prenom LIKE \"" + personne["prenom"] + "\""
+        cur.execute(select_query)
+        rows = cur.fetchall()
+        for row in rows:
+            id_personne = row[0]
+        if id_personne != -1:
+            write_key_in_db(conn, id_personne)
+
+    except Error as e:
+        print(e)
+    finally:
+        if conn:
+            conn.close()
+
 def delete_personne(db_path, id):
     conn = None
 
     try:
         conn = sqlite3.connect(db_path)
         cur = conn.cursor()
-        query = 'DELETE FROM personne WHERE id=' + id + ')'
+        query = 'DELETE FROM personne WHERE id=' + str(id) + ')'
         cur.execute(query)
         conn.commit()
 
