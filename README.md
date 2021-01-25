@@ -113,6 +113,12 @@ Ce fichier  contient l'ensemble des fonctions utiles au bon fonctionnement du pr
 
 C'est notamment ici que l'on intéragit avec la base de données afin d'enregistrer des transactions, vérifier l'intégrité des données, modifier des informations, les afficher, etc.
 
+### Send_in_v4.py
+
+Ce fichier permet de lancer une invite de commande pour l'interface client en ligne de commande.
+Pour lancer le fichier, il faut que le serveur soit lancé et exécuter la commande suivante sur un autre terminal :
+```python Send_in_v4.py```
+
 ### Répertoire tests
 
 Ce répertoire contient l'ensemble des scripts permettant de tester l'API, de lancer des attaques, et ainsi comprendre comment réagit le système aux attaques.
