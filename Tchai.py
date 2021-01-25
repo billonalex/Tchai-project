@@ -114,11 +114,12 @@ def new_record_v3(personne1, personne2, somme):
     add_record_v3(db_path, record)
     return ""
 
-@app.route('/records/v4/<personne1>/<personne2>/<somme>/<signature>', methods=['POST'])
-def new_record_v4(personne1, personne2, somme, signature):
+@app.route('/records/v4/<personne1>/<personne2>/<temps>/<somme>/<signature>', methods=['POST'])
+def new_record_v4(personne1, personne2, temps, somme, signature):
     record = {
         "personne1" : personne1,
         "personne2" : personne2,
+        "temps": temps,
         "somme" : somme,
         "signature" : signature
     }

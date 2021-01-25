@@ -22,8 +22,6 @@ def hash_sha256(text):
     return h.hexdigest()
 
 def encrypt(message, priv_key):
-    print(priv_key)
-    print(str.encode(message))
     cipher = PKCS1_OAEP.new(priv_key)
     return cipher.encrypt(str.encode(message))
 
@@ -39,7 +37,11 @@ def send(id_personne1, id_personne2, somme, private_key):
     signature = sign_transaction(record, private_key)
 
     record["signature"] = signature
-    print(record)
+    #print(record)
+
+    url = url_api + "records/v4/" + str(record["personne1"]) + "/" + str(record["personne2"]) + "/" + str(record["temps"]) + "/" + str(record["somme"]) + "/" + str(record["signature"])
+
+    requests.post(url)
 
     return 1
 
