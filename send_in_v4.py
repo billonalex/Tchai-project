@@ -5,19 +5,50 @@ Script :
 
 """
 
-from db import *
+#from db import *
 import requests
 import json
+import hashlib
+import time
+from datetime import datetime
+from Crypto.Cipher import PKCS1_OAEP
+from Crypto.PublicKey import RSA
 
 url_api = "http://127.0.0.1:5000/"
-db_path = "db/tchai.db"
-user = ""
 
-"""
+def hash_sha256(text):
+    h = hashlib.sha256()
+    h.update(text.encode('ascii'))
+    return h.hexdigest()
+
+def encrypt(message, priv_key):
+    print(priv_key)
+    print(str.encode(message))
+    cipher = PKCS1_OAEP.new(priv_key)
+    return cipher.encrypt(str.encode(message))
+
+
 def send(id_personne1, id_personne2, somme, private_key):
-    #Requêtage en base pour get l'utilisateur qui reçoit la moulaga
+    record = {
+        "personne1": id_personne1,
+        "personne2": id_personne2,
+        "temps": int(time.time()),
+        "somme": somme
+    }
+
+    signature = sign_transaction(record, private_key)
+
+    record["signature"] = signature
+    print(record)
+
     return 1
-"""
+
+def sign_transaction(record,private_key):
+    pre_hash = str(record["personne1"]) + "|" + str(record["personne2"]) + "|" + str(int(record["temps"])) + "|" + str(record["somme"])
+    hash = hash_sha256(pre_hash)
+    signature = encrypt(hash, private_key)
+
+    return signature
 
 #Selectionne le destinataire de l'argent et le montant
 def select_dest(id_exp):
@@ -40,9 +71,9 @@ def select_dest(id_exp):
         inp = input("Quel est le montant ? ")
         som = int(inp.lower())
         #Lecture clé privée
-        filin = open("./private_key/" + id_exp + ".txt", "r")
-        priv_k = filin.readlines()
-
+        filin = open("./private_key/" + id_exp + ".pem", "rb")
+        priv_k = RSA.importKey(filin.read())
+        filin.close()
         #Envoi enregistrement
         send(id_exp, id_dest, som, priv_k)
         print("\nArgent envoyé !\n")

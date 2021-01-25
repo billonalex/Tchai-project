@@ -352,6 +352,7 @@ def add_record_v4(db_path, record):
     record = {
         "personne1" : "1",
         "personne2" : "2",
+        "temps" : "15615213541665",
         "somme" : "144.56",
         "signature" : {signature}
     }
@@ -383,7 +384,7 @@ def add_record_v4(db_path, record):
             hash = hash_sha256_v3(pre_hash, previous_hash) #On crée notre hash en tenant compte du hash précédent
 
         #On insère l'enregistrement
-        query = 'INSERT INTO records (personne1, personne2, temps, somme, hash, signature) VALUES (' + str(record["personne1"]) + ',' + str(record["personne2"]) + ',' + str(int(today)) + ',' + str(record["somme"]) + ',"' + hash + '", "' + str(record["signature"]) + '")'
+        query = 'INSERT INTO records (personne1, personne2, temps, somme, hash, signature) VALUES (' + str(record["personne1"]) + ',' + str(record["personne2"]) + ',' + str(record["temps"]) + ',' + str(record["somme"]) + ',"' + hash + '", "' + str(record["signature"]) + '")'
         cur.execute(query)
         conn.commit()
 

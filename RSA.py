@@ -49,9 +49,9 @@ def write_key_in_db(conn, personne):
         cur = conn.cursor()
         query = "INSERT INTO public_key (personne, rsa_pub) VALUES (\"" + str(personne) + "\", \"" + str(pub_key.exportKey('PEM')) + "\")"
         cur.execute(query)
-        priv_file = open("private_key/" + str(personne) + ".txt", "w")
+        priv_file = open("private_key/" + str(personne) + ".pem", "wb")
 
-        priv_file.write(str(key.exportKey('PEM')))
+        priv_file.write(key.exportKey('PEM'))
 
         priv_file.close()
         conn.commit()
@@ -69,6 +69,8 @@ print(message)
 privat = b'-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEAt6BV8+IBIJsyNWXfk6FpJE6MD/uZPbbbpGCHEGr8DIGQjPT4\nrQE0XclEVNEfZmTgpBSipnznMBo/HLLMdxiz97RTx8ttYItd6I6vIE8tdSKits0P\nPNoOY15jXYpFC5jhGQLviQ1fD/nz5luS/KdlGcHQiA0GL9vtpGj70Y99Jqh1jWKe\nuaEMb0t2at4Y1hCszFKm7OrfimQcaZ7Cm2LB/kTxP551hxgl6X7ZdJGXUtzuRRgG\nbKX7WB3HO9rMG7oA1qWjrVDnpCLw4ugP0dKh9IAUAs2CXpvZBn4Qsp4X3LABPQPx\nPmotzXKu2ex1w6tQ8Lg+KV5/SmgXFmBNbtLfXwIDAQABAoIBACcCUlAxsoCdR7DN\nWA5SS3ZRk3KvxfG033tPoFHOEIaNnco8HnoOV/QWlkQYev2zL3/b/GO3BBwVb1Pm\n7gXdAxp7vhKjNjS81rHZYf3QpD0OoxeHf5WzUzwr6JsODTX1/9fi5kUsyIWp2XUV\n/idbXmB26piEf8x6AcWcIeb2fyVPZsetDtPMv+VjsRXxI7tnlw5Nt2HiZzIog7Ne\nuVm/h6yYUrWsMcNndTTLh0YVjvd/MtOON8cykZTznRGe7Cz/gQWOsqS0LzneUbU6\nlLfE+icaRiG2BI6fxZQMBK1VxQEkNwmrK9fu44EZyLH3dzJ6aRpUKi2vqTcnGfum\nHLBaNvECgYEAxXS5d3+B7v+L9vft2h9pEyaexmyuEHyWMkjxB9ie0Y47L7sC9uGA\n4IJfzrLffZDvAYk57PZFBdyuSUOAwsUHq6TjPmD/Oamjp6S9zDgsdQHSKG89jSmy\nl0UBasbR9tQ/fx4iR2gLWk3XCt1IBwgW1/i9P3/LzsFgpRn4PK3C2a8CgYEA7hHq\nX6bWE4OPF9xLcZv6Sh01C7WvTA9rKGrdSOWOhmKrokcYAcHSIvxnsu+TWxP/vH1U\ns7Br9W036AGsoLAJxjGSSlD3Dt7XcY559NvEWdSUk/N4Aytcq+anzKqPO4pJucp6\noPtcnu3FedQ0iqVgBUw1a8IYf0wF0MJ+Sit2sVECgYBZVQ+7wpI0YKUgHNcdQey1\n31kiCHVPvC3vnhR+KkDgKesZExCqRSebayCRUVfPZUzccwsj698aYdbwCnwsohtw\nSm8M/7E4k0kZRW0hAaELZsF/zaQZQ24rBes4Na80bp4zkpyLlcTdHC5YGfjGRaCg\nIUbtfZHlfpOM3ozyVuK6vQKBgQCfuNNWwzcDNpONPZY8LZqZmMjbB1UJoZqSLkgy\nPRkHHjHqmOoJW8EhCdiE22kwhNVh33Axch6sNU95z43C7PhRyTZNt85ZYraGkEFQ\nPxWX8yCPtpwA/FmbVw+jJ5cbKidWh/sIADxewEVp/C4YCuXGCCAbIMiQty97pNFX\n75sdUQKBgCWES0g0HiToyWstT8p22A/UrKAqWTt9329UHyTNqci/1KtlMcnNvNTV\n7RdoLnbZ1uf0ukDoUthMI7Oy0aXvE1DFw4VOZWDQTXY454dIs85VlB6UV/hG8qcp\nymzDrzL5j3cTOq5lhxvDdDlM6f8cChuKdC3DESI6krLCnHJusXHo\n-----END RSA PRIVATE KEY-----'
 
 key = RSA.importKey(privat)
+
+print(key)
 
 encoded = encrypt(message, key)
 

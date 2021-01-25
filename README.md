@@ -34,8 +34,8 @@ Les requêtes créées sont :
     
 ### V4 - Ajouter une personne avec génération de clés RSA
 
-    POST /personne/v4/<nom>/<prenom>
-    INSERT INTO personne (nom,prenom) VALUES ("BILLON", "Alexandre")
+    POST /personne/v4/<nom>/<prenom>/<mail>/<password>
+    INSERT INTO personne (nom,prenom,mail,password) VALUES ("BILLON", "Alexandre", "billonalex21@gmail.com", "alex")
     INSERT INTO public_key (personne,rsa_pub) VALUES (1, {Clé RSA})
 
 ### Supprimer une personne
@@ -92,6 +92,10 @@ Les requêtes créées sont :
 
     POST /records/v3/<personne1>/<personne2>/<somme>
     SELECT id from records WHERE temps = (SELECT MAX(temps) FROM records)
+
+### Effectuer une transaction en tenant compte de la signature RSA de l'émetteur
+
+    POST /records/v4/<personne1>/<personne2>/<somme>/<signature>
 
 D'autres requêtes pourront être imaginées par la suite.
 
@@ -219,7 +223,7 @@ On crée une chaine ```"{id_personne1}|{id_personne2}|{temps}|{somme}"``` qu'on 
 
 ## RSA
 
-A l'ajout d'une nouvelle personne, une paire de clés RSA est générée automatiquement. La clé publique est directement stockée en base, tandis que la clé privée est stockée dans le dossier ```private_key``` sous la forme ```{id_personne}.txt```.
+A l'ajout d'une nouvelle personne, une paire de clés RSA est générée automatiquement. La clé publique est directement stockée en base, tandis que la clé privée est stockée dans le dossier ```private_key``` sous la forme ```{id_personne}.pem```.
 
 Le stockage de cette clé privée est temporaire, et sera à envoyer à la personne concernée pour utilisation.
 
