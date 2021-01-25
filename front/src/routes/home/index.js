@@ -49,7 +49,7 @@ export default class Home extends Component {
 						<p class="text-sm text-center">Logiciel mis à jour le 3 janvier 2021</p>
 						<p>Bienvenue sur le logiciel de gestion de la blockchain : FlasKlient !</p>
 						<p>
-							Vous devez être connecté pour profiter des fonctionnalités offertes par ce logiciel. Si vous ne disposez pas d'un compte, contacter l'administrateur en écrivant un e-mail à <span class="emailAlexandre"></span> en indiquant au maximum les informations vous concernant. L'administrateur étudiera votre dossier et vous transmettra les informations nécessaires pour vous connecter. Vous pouvez également contacter par téléphone Laure OHLEYER.
+							Vous devez être connecté pour profiter des fonctionnalités offertes par ce logiciel. Si vous ne disposez pas d'un compte, contacter l'administrateur en écrivant un e-mail à <span class="emailAlexandre"></span> en indiquant au maximum les informations vous concernant. L'administrateur étudiera votre dossier et vous transmettra les informations nécessaires pour vous connecter.
 						</p>
 						<p class="text-center">
 							<a class="btn btn-primary mr-3" href="/login">Se connecter</a>
